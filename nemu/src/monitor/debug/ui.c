@@ -46,12 +46,13 @@ static struct {
 	{ "help", "Display informations about all supported commands", cmd_help },
 	{ "c", "Continue the execution of the program", cmd_c },
 	{ "q", "Exit NEMU", cmd_q },
-	{ "si", "One Step Operate N commands until It End", cmd_si},
-	{ "infor", "", cmd_si},
-	{ "si", "", cmd_si},
-	{ "si", "", cmd_si},
-	{ "si", "", cmd_si},
-	{ "si", "", cmd_si},
+	{ "si", "One Step Operate N commands until it End", cmd_si },
+	{ "infor", "Print the Register Statue", cmd_infor },
+	{ "p", "Caculate the expression's expert", cmd_p },
+	{ "x", "Caculate the expression's expert and take it as initial storage address as 0xffff", cmd_x },
+	{ "w", "When Expression changed to hold the program ", cmd_w },
+	{ "d", "Delete the number of N watch point", cmd_d },
+	{ "bt", "Print the stack frame chain", cmd_bt },
 	/* TODO: Add more commands */
 
 };
