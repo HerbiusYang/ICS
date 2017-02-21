@@ -38,7 +38,7 @@ static int cmd_q(char *args) {
 
 static int cmd_help(char *args);
 
-
+// Add Command Function part 
 static int cmd_info(char *args) {
     switch (*args) {
     case 'r': dump_regs(); return 0;
@@ -46,6 +46,37 @@ static int cmd_info(char *args) {
     }
 }
 
+static void dump_regs() {
+    int i;
+    for(i = R_EAX; i <= R_EDI; i ++) {
+        printf("%s: 0x%08x\n", regsl[i], cpu.gpr[i]._32);
+    }
+    printf("eip: 0x%08x\n", cpu.eip);
+
+}
+
+static int cmd_x(char *args) {
+    unsigned int addr, len, i;
+
+    sscanf(args, "%d 0x%x", &len, &addr);
+    printf("dump memory start addr: 0x%08x len: %d\n", addr, len);
+    for (i = 0; i < len; ++i) {
+        if (!(i & 0xf)) printf("\n0x%08x: ", addr + i * 16);
+        printf("0x%02x ", *(unsigned char *)hwa_to_va(addr + i));
+    }
+    printf("\n");
+
+    return 0;
+}
+
+static int cmd_si(char *args) {
+	if(*args)
+	{
+		cpu_exec(*args);
+    	return 0;
+    }
+    else return -1;
+}
 
 static struct {
 	char *name;
@@ -55,13 +86,14 @@ static struct {
 	{ "help", "Display informations about all supported commands", cmd_help },
 	{ "c", "Continue the execution of the program", cmd_c },
 	{ "q", "Exit NEMU", cmd_q },
+
 	{ "si", "One Step Operate N commands until it End", cmd_si },
 	{ "infor", "Print the Register Statue", cmd_infor },
-	{ "p", "Caculate the expression's expert", cmd_p },
+//	{ "p", "Caculate the expression's expert", cmd_p },
 	{ "x", "Caculate the expression's expert and take it as initial storage address as 0xffff", cmd_x },
-	{ "w", "When Expression changed to hold the program ", cmd_w },
-	{ "d", "Delete the number of N watch point", cmd_d },
-	{ "bt", "Print the stack frame chain", cmd_bt },
+//	{ "w", "When Expression changed to hold the program ", cmd_w },
+//	{ "d", "Delete the number of N watch point", cmd_d },
+//	{ "bt", "Print the stack frame chain", cmd_bt },
 	/* TODO: Add more commands */
 
 };
