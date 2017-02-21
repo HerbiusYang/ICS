@@ -38,6 +38,15 @@ static int cmd_q(char *args) {
 
 static int cmd_help(char *args);
 
+
+static int cmd_info(char *args) {
+    switch (*args) {
+    case 'r': dump_regs(); return 0;
+    default: return 1;
+    }
+}
+
+
 static struct {
 	char *name;
 	char *description;
