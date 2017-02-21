@@ -39,12 +39,6 @@ static int cmd_q(char *args) {
 static int cmd_help(char *args);
 
 // Add Command Function part 
-static int cmd_infor(char *args) {
-    switch (*args) {
-    case 'r':dump_regs(); return 0;
-    default: return 1;
-    }
-}
 
 static void dump_regs() {
     int i;
@@ -53,6 +47,13 @@ static void dump_regs() {
     }
     printf("eip: 0x%08x\n", cpu.eip);
 
+}
+
+static int cmd_infor(char *args) {
+    switch (*args) {
+    case 'r':dump_regs(); return 0;
+    default: return 1;
+    }
 }
 
 static int cmd_x(char *args) {
