@@ -39,9 +39,9 @@ static int cmd_q(char *args) {
 static int cmd_help(char *args);
 
 // Add Command Function part 
-static int cmd_info(char *args) {
+static int cmd_infor(char *args) {
     switch (*args) {
-    case 'r': dump_regs(); return 0;
+    case 'r':dump_regs(); return 0;
     default: return 1;
     }
 }
