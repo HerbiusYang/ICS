@@ -40,29 +40,30 @@ static int cmd_help(char *args);
 
 // Add Command Function part 
 
-static void dump_regs() {
+static void dump_register() {
     int i;
     for(i = R_EAX; i <= R_EDI; i ++) {
-        printf("%s: 0x%08x\n", regsl[i], cpu.gpr[i]._32);
+        printf("%s: 0x%08x %08d\n", regsl[i], cpu.gpr[i]._32 , cpu.grp[i]._32);
     }
-    printf("eip: 0x%08x\n", cpu.eip);
+    printf("eip: 0x%08x %08d\n", cpu.eip, cpu.eip);
 
 }
 
-static int cmd_infor(char *args) {
+static int cmd_info(char *args) {
     switch (*args) {
-    case 'r':dump_regs(); return 0;
+    case 'r':dump_register(); return 0;
     default: return 1;
     }
 }
 
 static int cmd_x(char *args) {
-    unsigned int addr, len, i;
 
-    sscanf(args, "%d 0x%x", &len, &addr);
+    unsigned int addr, len, i;
+    sscanf(args, "%d 0x%x", &len, &addr);   //invoke sscnaf() function in Internet  instead of strvok()
     printf("dump memory start addr: 0x%08x len: %d\n", addr, len);
     for (i = 0; i < len; ++i) {
-        if (!(i & 0xf)) printf("\n0x%08x: ", addr + i * 16);
+        if (!(i & 0xf)) 
+        	printf("\n0x%08x: ", addr + i);
         printf("0x%02x ", *(unsigned char *)hwa_to_va(addr + i));
     }
     printf("\n");
@@ -70,13 +71,19 @@ static int cmd_x(char *args) {
     return 0;
 }
 
-static int cmd_si(char *args) {
-	if(*args)
+static int cmd_si(char *args) {  //This part needs to fix with strtok() and atoi()
+
+	char *pch;
+	int infer;
+	pch=strtok(args," ");     //invoke strtok() function
+	while(pch!=NULL)
 	{
-		cpu_exec(*args);
-    	return 0;
-    }
-    else return -1;
+		infer=atoi(const pch);//invoke atoi() function
+		pch=(NULL," ");
+	}
+
+	cpu_exec(infer);
+    return 0;
 }
 
 static struct {
@@ -89,12 +96,14 @@ static struct {
 	{ "q", "Exit NEMU", cmd_q },
 
 	{ "si", "One Step Operate N commands until it End", cmd_si },
-	{ "infor", "Print the Register Statue", cmd_infor },
+	{ "infor", "Print the Register Statue", cmd_info },
 //	{ "p", "Caculate the expression's expert", cmd_p },
 	{ "x", "Caculate the expression's expert and take it as initial storage address as 0xffff", cmd_x },
 //	{ "w", "When Expression changed to hold the program ", cmd_w },
 //	{ "d", "Delete the number of N watch point", cmd_d },
 //	{ "bt", "Print the stack frame chain", cmd_bt },
+
+
 	/* TODO: Add more commands */
 
 };
