@@ -44,7 +44,7 @@ static int cmd_help(char *args);
 static void dump_register() {
     int i;
     for(i = R_EAX; i <= R_EDI; i ++) {
-        printf("%s: 0x%08x %08d\n", regsl[i], cpu.gpr[i]._32 , cpu.grp[i]._32);
+        printf("%s: 0x%08x %08d\n", regsl[i], cpu.gpr[i]._32 , cpu.gpr[i]._32);
     }
     printf("eip: 0x%08x %08d\n", cpu.eip, cpu.eip);
 
@@ -79,8 +79,8 @@ static int cmd_si(char *args) {  //This part needs to fix with strtok() and atoi
 	pch=strtok(args," ");     //invoke strtok() function
 	while(pch!=NULL)
 	{
-		infer=atoi(const pch);//invoke atoi() function
-		pch=(NULL," ");
+		infer=atoi(pch);//invoke atoi() function
+		pch=strtok(NULL," ");
 	}
 
 	cpu_exec(infer);
