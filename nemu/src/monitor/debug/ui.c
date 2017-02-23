@@ -8,6 +8,7 @@
 #include <readline/history.h>
 
 void cpu_exec(uint32_t);
+void dump_register()；
 
 /* We use the ``readline'' library to provide more flexibility to read from stdin. */
 char* rl_gets() {
