@@ -75,7 +75,7 @@ static int cmd_x(char *args) {
 static int cmd_si(char *args) {  //This part needs to fix with strtok() and atoi()
 
 	char *pch;
-	int infer;
+	int infer=1;              //When the n is NULL so the debugger will execute one step
 	pch=strtok(args," ");     //invoke strtok() function
 	while(pch!=NULL)
 	{
