@@ -63,10 +63,10 @@ static int cmd_x(char *args) {
     sscanf(args, "%d 0x%x", &len, &addr);   //invoke sscnaf() function in Internet  instead of strvok()
     printf("dump memory start addr: 0x%08x len: %d\n", addr, len);
     for (i = 0; i < len; ++i) {
-        if (!(i & 0x2))                        // Why? Interesting... of symbol &
-        	printf("\n0x%08x: ", addr + i);  //Please mention the output the
+        if (!(i && (i%5==0)))                        // Why? Interesting... of symbol &
+        	printf("\n0x%08x: ", addr + i);        //Please mention the output the
         printf("0x%02x ", *(unsigned char *)hwa_to_va(addr + i));
-        if(i%5==0&&i!=0) printf("\n");
+        if((i%5==0)&&(i!=0)) printf("\n");
     }
     printf("\n");
 
