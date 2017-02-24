@@ -66,7 +66,8 @@ static int cmd_x(char *args) {
         if (!(i && (i%5!=0)))                        // Why? Interesting... of symbol &
         	printf("\n0x%08x: ", addr + i);        //Please mention the output the
         printf("0x%02x ", *(unsigned char *)hwa_to_va(addr + i));
-        if((i!=0)&&(i%5==0)) printf("\n");
+        if((i!=0)&&((i+1)%5==0)) 
+        	printf("\n");
     }
     printf("\n");
 
