@@ -193,6 +193,7 @@ int	dominant_op(int p,int q){
 int eval(int p,int q){
 	if(p>q){
 		printf("Invalid expression!\n");
+		printf("sss");
 		assert(0);
 		return 0;
 	}
@@ -268,6 +269,8 @@ int eval(int p,int q){
 			default:{assert(0);return 0;}
 		}
 	}
+	else printf("Invalid expression!\n");
+		assert(0);
 		return 0;
 }
 
