@@ -89,17 +89,13 @@ static int cmd_si(char *args) {  //This part needs to fix with strtok() and atoi
     return 0;
 }
 
-static int cmd_p(char *args){//TODO:表达式求值
-	char *arg = strtok(NULL,"");
-	bool success = true;
-	bool* successp = &success;
-	if (arg == NULL) {
-		printf("please input the expression\n");
-	}else{
-
-		printf("%s = %u\n",arg,expr(arg,successp));
+static int cmd_p(char *p) {
+	bool success=true;
+	int value=expr(p,&success);
+	if (success==true) {
+		print_token();
+		printf("%u\n",value);
 	}
-	return 0;
 }
 
 static struct {
