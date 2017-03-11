@@ -268,10 +268,9 @@ int eval(int p,int q){
 			default:{assert(0);return 0;}
 		}
 	}
-		else printf("Invalid expression!\n");
-		assert(0);
 		return 0;
-	}
+}
+
 uint32_t expr(char *e, bool *success) {
 	if(!make_token(e)) {
 		*success = false;
