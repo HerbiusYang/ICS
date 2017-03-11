@@ -49,7 +49,7 @@ static struct rule {
 	{">=", ME},						//More than or euqual to
 	{"!=", NE},						//Not Equal
 	{"\\^", '^'},					//XOR
-	{"*", LEA},						//index variety
+	//{"*", LEA},						//index variety
 
 
 
