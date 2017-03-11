@@ -340,6 +340,31 @@ uint32_t eval(int p,int q,bool *success) {
 
 
 
+void print_token() {
+	int tmp=0;
+		for (;tmp<nr_token;tmp++) {
+			if (tokens[tmp].type==NUM||tokens[tmp].type==HEX||tokens[tmp].type==REG||tokens[tmp].type==SYM)
+				printf("%s",tokens[tmp].str);
+			else 
+				switch (tokens[tmp].type) {
+					case LS: printf("<<"); break;
+					case RS: printf(">>"); break;
+					case LE: printf("<="); break;
+					case ME: printf(">="); break;
+					case EQ: printf("=="); break;
+					case NE: printf("!="); break;
+					case AND: printf("&&"); break;
+					case OR : printf("||"); break;
+					case NO: printf("!"); break;
+					default:
+						printf("%c",tokens[tmp].type);
+				}
+		}
+	printf(" = ");
+}
+
+
+
 uint32_t expr(char *e, bool *success) {
 	int i;
 	if(!make_token(e)) {
@@ -371,26 +396,5 @@ uint32_t expr(char *e, bool *success) {
 	return 0;
 }
 
-void print_token() {
-	int tmp=0;
-		for (;tmp<nr_token;tmp++) {
-			if (tokens[tmp].type==NUM||tokens[tmp].type==HEX||tokens[tmp].type==REG||tokens[tmp].type==SYM)
-				printf("%s",tokens[tmp].str);
-			else 
-				switch (tokens[tmp].type) {
-					case LS: printf("<<"); break;
-					case RS: printf(">>"); break;
-					case LE: printf("<="); break;
-					case ME: printf(">="); break;
-					case EQ: printf("=="); break;
-					case NE: printf("!="); break;
-					case AND: printf("&&"); break;
-					case OR : printf("||"); break;
-					case NO: printf("!"); break;
-					default:
-						printf("%c",tokens[tmp].type);
-				}
-		}
-	printf(" = ");
-}
+
 
