@@ -142,12 +142,12 @@ bool check_parentheses(int p, int q )
 {
 	int i;
 	bool label;
-	bool flag=(token[p].type =='(') && (token[q].type==')'); //judge the front expression and base expression have the buckets or not
+	bool flag=(tokens[p].type =='(') && (tokens[q].type==')'); //judge the front expression and base expression have the buckets or not
 	int  sum=0;
 	for(i=p;i<=q;i++){
-		if(token[i].type == '(')
+		if(tokens[i].type == '(')
 			++sum;
-		if(token[i].type == ')')
+		if(tokens[i].type == ')')
 			--sum;
 		if(sum<=-1)
 			label = false;
