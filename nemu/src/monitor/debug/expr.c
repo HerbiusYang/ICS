@@ -22,7 +22,7 @@ static struct rule {
 	 */
 
 	{"[0-9]+", NUM},					//10 scale number of regular expression 
-	{"0x[0-9a-fA-F]+", HEX},			//16 scale number of regular expression
+	{"0x[0-9a-fA-F]{1,8}", HEX},			//16 scale number of regular expression
 										//only make the 10scale and 16scale's calculated succeed
 	{"\\$[[:alpha:]]+", REG},           //$ of expression 
 
