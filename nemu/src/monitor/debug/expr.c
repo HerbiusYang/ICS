@@ -58,13 +58,15 @@ int level(int type) {
 		switch (type) {
 			case '~': case NOT: case LEA:								
 				result = 16; break;
+			case LE: case GE:
+				result = 15; break;
 			case '*': case '/': case '%':
 				result = 14; break;
 			case '+': case '-':
 				result = 13; break;
 			case SL: case SR:
 				result = 12; break;
-			case '<': case LE: case '>': case GE:
+			case '<':  case '>': 
 				result = 11; break;
 			case EQ: case NE:
 				result = 10; break;
@@ -213,15 +215,15 @@ uint32_t eval(int p,int q,bool *success) {
 				case HEX:
 					sscanf(tokens[p].str,"%x",&value);
 					break;
-				/*case SYM: {
+				case SYM: {
 							  swaddr_t addr;
-							  //addr = find_sym(tokens[p].str);
+							  addr = find_sym(tokens[p].str);
 							  if(addr != 0)
 								  return addr;
 							  else 
 								  *success = false;
 							  break;
-						  }*/
+						  }
 				case REG:
 					for (i=R_EAX;i<=R_EDI;i++)
 						if (strcasecmp(regsl[i],tokens[p].str+1)==0) {
