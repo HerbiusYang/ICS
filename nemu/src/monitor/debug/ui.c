@@ -96,6 +96,7 @@ static int cmd_p(char *p) {
 		print_token();
 		printf("%u\n",value);
 	}
+	return 0;
 }
 
 static struct {
