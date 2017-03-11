@@ -140,10 +140,10 @@ static bool make_token(char *e) {
 	return true; 
 }
 
-bool check_parentheses(int p, int q )
+bool check_parentheses(int p, int q , bool *success)
 {
 	int i;
-	bool label=true;
+
 	bool flag=(tokens[p].type =='(') && (tokens[q].type==')'); //judge the front expression and base expression have the buckets or not
 	int  sum=0;
 	for(i=p;i<=q;i++){
@@ -152,11 +152,11 @@ bool check_parentheses(int p, int q )
 		if(tokens[i].type == ')')
 			--sum;
 		if(sum<=-1)
-			label = false;
+			success = false;
 	}
 	if(sum != 0)
-		label = false;
-	return label && flag;
+		success = false;
+	return success && flag;
 
 }
 
@@ -191,7 +191,7 @@ int level(int type)   //Judge the symbol level for calculation....
 	return index;
 }
 
-int dominant(int p,int q) {
+int dominant(int p,int q ) {
 	int i,sum=0,location=-1;
 	for (i=p;i<=q;i++) {
 		switch (tokens[i].type) {
@@ -282,7 +282,7 @@ uint32_t eval(int p,int q,bool *success) {
 			}
 			return value;
 		}
-		else if(check_parentheses(p,q)==true) {
+		else if(check_parentheses(p,q,success)==true) {
 		/* The expression is surrounded by a matched pair of parentheses. 
 		 * If that is the case, just throw away the parentheses.	 
 		 */
