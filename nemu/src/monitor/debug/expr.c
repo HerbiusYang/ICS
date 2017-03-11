@@ -141,7 +141,7 @@ static bool make_token(char *e) {
 bool check_parentheses(int p, int q )
 {
 	int i;
-	bool label;
+	bool label=true;
 	bool flag=(tokens[p].type =='(') && (tokens[q].type==')'); //judge the front expression and base expression have the buckets or not
 	int  sum=0;
 	for(i=p;i<=q;i++){
@@ -210,7 +210,7 @@ int dominant(int p,int q) {
 						location=i;
 					if (level(tokens[i].type) < level(tokens[location].type))
 						switch (tokens[i].type) {
-							 case '!': case LEA:
+							 case NO: case LEA:
 								break;
 							default :
 								location=i;  //if not the symbol the location of expression must be return to initial location  HER 
@@ -222,13 +222,12 @@ int dominant(int p,int q) {
 }
 
 
-uint32_t eval(int p,int q,bool success) {
+uint32_t eval(int p,int q,bool *success) {
 
-		bool *label = success;
 
 	    if(p > q) {
 		/* Bad expression */
-			*label=false;    //IF the index number of expression get wrong it must be weong ... return 0 HER
+			*success=false;    //IF the index number of expression get wrong it must be weong ... return 0 HER
 			return 0;
 		}
 		else if(p == q) { 
@@ -273,11 +272,11 @@ uint32_t eval(int p,int q,bool success) {
 						flag=true;
 					}
 					if (flag==false)
-						*label=false;
+						*success=false;
 					break;
 
 				default :
-					*label=false;
+					*success=false;
 			}
 			return value;
 		}
@@ -285,9 +284,9 @@ uint32_t eval(int p,int q,bool success) {
 		/* The expression is surrounded by a matched pair of parentheses. 
 		 * If that is the case, just throw away the parentheses.	 
 		 */
-			return eval(p+1,q-1); 
+			return eval(p+1,q-1,success); 
 		}
-		else if (*label==true) {
+		else if (*success==true) {
 
 			int op=dominant(p,q);
 
@@ -296,9 +295,9 @@ uint32_t eval(int p,int q,bool success) {
 			if (op==p) 
 				val1=0;
 			else 
-				val1=eval(p,op-1);
+				val1=eval(p,op-1,success);
 
-			uint32_t val2=eval(op+1,q);
+			uint32_t val2=eval(op+1,q,success);
 
 			switch (tokens[op].type) {         //calculate part HER
 
@@ -309,7 +308,7 @@ uint32_t eval(int p,int q,bool success) {
 					if (val2!=0) 
 						return val1/val2;
 					else {
-						*label=false;
+						*success=false;
 						return 0; 
 					}
 				case '%': return val1%val2;
@@ -330,7 +329,7 @@ uint32_t eval(int p,int q,bool success) {
 				case '^': return val1^val2;
 	
 				default: 
-					*label=false; 
+					*success=false; 
 					assert(0);
 					return 0;
 			}
