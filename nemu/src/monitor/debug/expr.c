@@ -143,11 +143,11 @@ bool check_parentheses(int p, int q )
 	int i;
 	bool label;
 	bool flag=(token[p].type =='(') && (token.[q]==')'); //judge the front expression and base expression have the buckets or not
-	int  num=0;
+	int  sum=0;
 	for(i=p;i<=q;i++){
 		if(token[i].type == '(')
 			++sum;
-		if(tokem[i].type == ')')
+		if(token[i].type == ')')
 			--sum;
 		if(sum<=-1)
 			label = false;
@@ -317,7 +317,7 @@ uint32_t eval(int p,int q) {
 				case '>': return val1>val2;
 				case LE : return val1<=val2;
 				case LEA: return swaddr_read(val2,4);
-				case GE : return val1>=val2;
+				case ME : return val1>=val2;
 				case EQ : return val1==val2;
 				case NE : return val1!=val2;
 				case AND: return val1&&val2;
@@ -342,6 +342,7 @@ uint32_t eval(int p,int q) {
 
 
 uint32_t expr(char *e, bool *success) {
+	int i;
 	if(!make_token(e)) {
 		*success = false;
 		return 0;
