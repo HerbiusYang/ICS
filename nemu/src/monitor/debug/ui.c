@@ -8,7 +8,7 @@
 #include <readline/history.h>
 
 void cpu_exec(uint32_t);
-
+void print_token();
 
 /* We use the ``readline'' library to provide more flexibility to read from stdin. */
 char* rl_gets() {
@@ -93,12 +93,14 @@ static int cmd_p(char *p){
 	bool success=true;
 
 	int value=expr(p,&success);
-	
+
 	if (success==true) {
 		print_token();
 		printf("%u\n",value);
 	}
+	return 0；
 }
+
 static struct {
 	char *name;
 	char *description;
