@@ -164,7 +164,7 @@ int level(int type)   //Judge the symbol level for calculation....
 {
 	int index = 100; // Empty initial number
 	switch(type){
-		case NO : case LEA:
+		case NO : 
 			index = 20;break;
 		case '*': case '/': case '%':
 			index = 19;break;
@@ -367,6 +367,7 @@ void print_token() {
 
 
 uint32_t expr(char *e, bool *success) {
+
 	int i;
 	if(!make_token(e)) {
 		*success = false;
@@ -374,14 +375,14 @@ uint32_t expr(char *e, bool *success) {
 	}
 
 	/* TODO: Insert codes to evaluate the expression. */
-	/*for (i=0;i<nr_token;i++) {
+	for (i=0;i<nr_token;i++) {
 		if (tokens[i].type=='*') {
 			if (tokens[i-1].type != NUM && tokens[i-1].type != HEX && tokens[i-1].type!=REG)
 				tokens[i].type=LEA;
 		}
 	} //judge the index expression or symbol of multiplication
 
-	*/
+
 
 	uint32_t result=eval(0,nr_token-1,success);
 
