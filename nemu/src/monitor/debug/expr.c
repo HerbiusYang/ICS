@@ -269,6 +269,8 @@ int eval(int p,int q){
 			default:{assert(0);return 0;}
 		}
 	}
+
+	return 0;
 }
 
 uint32_t expr(char *e, bool *success) {
