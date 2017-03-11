@@ -5,6 +5,20 @@
  */
 #include <sys/types.h>
 #include <regex.h>
+extern swaddr_t find_sym(char*);
+
+swaddr_t find_sym(char *sym) {
+	int i;
+	for (i = 0; i < nr_symtab_entry; i++) {
+		if (ELF32_ST_TYPE(symtab[i].st_info) == STT_OBJECT || ELF32_ST_TYPE(symtab[i].st_info) == STT_FUNC) {
+			if (strcmp(sym, strtab + symtab[i].st_name) == 0) {
+				return symtab[i].st_value;
+			}
+		}
+	}
+	return 0;
+}
+
 
 enum {
 	NOTYPE = 256, EQ , AND , OR , NO , HEX , NUM , REG , LS , RS , LE , ME , NE , LEA , EX ,
@@ -250,7 +264,7 @@ uint32_t eval(int p,int q,bool *success) {
 					sscanf(tokens[p].str,"%x",&value);//input the HEX number
 					break;
 
-				case SYM:{
+				case EX:{
 					swaddr_t addr;
 					addr = find_sym(tokens[p].str);
 					if(addr != 0)
@@ -354,7 +368,7 @@ uint32_t eval(int p,int q,bool *success) {
 void print_token() {
 	int tmp=0;
 		for (;tmp<nr_token;tmp++) {
-			if (tokens[tmp].type==NUM||tokens[tmp].type==HEX||tokens[tmp].type==REG||tokens[tmp].type==SYM)
+			if (tokens[tmp].type==NUM||tokens[tmp].type==HEX||tokens[tmp].type==REG||tokens[tmp].type==EX)
 				printf("%s",tokens[tmp].str);
 			else 
 				switch (tokens[tmp].type) {
