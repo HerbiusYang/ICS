@@ -41,7 +41,7 @@ static struct rule {
 	{"%", '%'},						//complementation
 	{"<<", LS},						//Left shift
 	{">>", RS},						//Right shift
-
+	{"&", '&'},						//And binary
 
 	{">", '>'},						//symbol >
 	{"<", '<'},						//symbol <
