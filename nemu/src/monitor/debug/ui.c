@@ -89,6 +89,16 @@ static int cmd_si(char *args) {  //This part needs to fix with strtok() and atoi
     return 0;
 }
 
+static int cmd_p(char *p){
+	bool success=true;
+
+	int value=expr(p,&success);
+	
+	if (success==true) {
+		print_token();
+		printf("%u\n",value);
+	}
+}
 static struct {
 	char *name;
 	char *description;
@@ -100,7 +110,7 @@ static struct {
 
 	{ "si", "One Step Operate N commands until it End", cmd_si },
 	{ "infor", "Print the Register Statue", cmd_info },
-//	{ "p", "Caculate the expression's expert", cmd_p },
+	{ "p", "Caculate the expression's expert", cmd_p },
 	{ "x", "Caculate the expression's expert and take it as initial storage address as 0xffff", cmd_x },
 //	{ "w", "When Expression changed to hold the program ", cmd_w },
 //	{ "d", "Delete the number of N watch point", cmd_d },
