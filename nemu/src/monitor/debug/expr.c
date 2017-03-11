@@ -42,6 +42,7 @@ static struct rule {
 	{"<<", LS},						//Left shift
 	{">>", RS},						//Right shift
 	{"&", '&'},						//And binary
+	{"\\|", '|'},					//OR calculate
 
 	{">", '>'},						//symbol >
 	{"<", '<'},						//symbol <
