@@ -21,8 +21,8 @@ static struct rule {
 	 * Pay attention to the precedence level of different rules.
 	 */
 
-	{"0[Xx][0-9a-fA-F]+", HEX},			//16 scale number of regular expression
 	{"[0-9]+", NUM},					//10 scale number of regular expression 
+	{"0[Xx][0-9a-fA-F]+", HEX},			//16 scale number of regular expression
 										//only make the 10scale and 16scale's calculated succeed
 	{"\\$[[:alpha:]]+", REG},           //$ of expression 
 
@@ -107,7 +107,7 @@ static bool make_token(char *e) {
 				char *substr_start = e + position;
 				int substr_len = pmatch.rm_eo;
 
-				Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s", i, rules[i].regex, position, substr_len, substr_len, substr_start);
+				//Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s", i, rules[i].regex, position, substr_len, substr_len, substr_start);
 				position += substr_len;
 
 //ADD Part
@@ -124,7 +124,9 @@ static bool make_token(char *e) {
 						break;
 					case NOTYPE:									//if the expression's character is empty so break the function HER
 						break;
-					default: panic("please implement me");
+					default:
+						tokens[nr_token].type=rules[i].token_type;
+						nr_token++;
 				}
 				break;
 			}
