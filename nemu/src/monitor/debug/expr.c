@@ -7,7 +7,7 @@
 #include <regex.h>
 
 enum {
-	NOTYPE = 256, EQ , AND , OR , NO , HEX , NUM , REG , LS , RS , LE , ME , NE , LEA ,
+	NOTYPE = 256, EQ , AND , OR , NO , HEX , NUM , REG , LS , RS , LE , ME , NE , LEA , EX ,
 	/* TODO: Add more token types */
 
 };
@@ -25,6 +25,7 @@ static struct rule {
 	{"0[Xx][0-9a-fA-F]+", HEX},			//16 scale number of regular expression
 										//only make the 10scale and 16scale's calculated succeed
 	{"\\$[[:alpha:]]+", REG},           //$ of expression 
+	{"[[:alpha:][:digit:]]+", EX},     //judge the double symbol
 
 
 	{"\\+", '+'},					//plus
@@ -56,7 +57,6 @@ static struct rule {
 
 //Demo:
 	{" +",	NOTYPE},				// a seris of spaces
-	{"\\+", '+'},					// plus
 	{"==", EQ},						// equal
 };
 
@@ -117,7 +117,7 @@ static bool make_token(char *e) {
 				 * types of tokens, some extra actions should be performed.
 				 */
 				switch(rules[i].token_type) {
-					case NUM: case HEX: case REG:
+					case NUM: case HEX: case REG: case EX:
 						tokens[nr_token].type=rules[i].token_type;  //input the information into the tokens array HER
 						strncpy(tokens[nr_token].str,substr_start,substr_len);
 						strncpy(tokens[nr_token].str+substr_len,"\0",1);
@@ -144,8 +144,7 @@ static bool make_token(char *e) {
 bool check_parentheses(int p, int q , bool *success)
 {
 	int i;
-
-	bool flag=(tokens[p].type =='(') && (tokens[q].type==')'); //judge the front expression and base expression have the buckets or not
+	bool flag=((tokens[p].type =='(') && (tokens[q].type==')')); //judge the front expression and base expression have the buckets or not
 	int  sum=0;
 	for(i=p;i<=q;i++){
 		if(tokens[i].type == '(')
@@ -213,7 +212,7 @@ int dominant(int p,int q ) {
 						location=i;
 					if (level(tokens[i].type) < level(tokens[location].type))
 						switch (tokens[i].type) {
-							 case NO: case LEA:
+							 case NO: //case LEA:
 								break;
 							default :
 								location=i;  //if not the symbol the location of expression must be return to initial location  HER 
@@ -250,6 +249,16 @@ uint32_t eval(int p,int q,bool *success) {
 				case HEX:
 					sscanf(tokens[p].str,"%x",&value);//input the HEX number
 					break;
+
+				case SYM:{
+					swaddr_t addr;
+					addr = find_sym(tokens[p].str);
+					if(addr != 0)
+						return addr;
+					else 
+						*success = false;
+					break;
+				}
 
 				case REG:
 					for (i=R_EAX;i<=R_EDI;i++)
@@ -318,7 +327,7 @@ uint32_t eval(int p,int q,bool *success) {
 				case '<': return val1<val2;
 				case '>': return val1>val2;
 				case LE : return val1<=val2;
-				case LEA: return swaddr_read(val2,4);
+				//case LEA: return swaddr_read(val2,4);
 				case ME : return val1>=val2;
 				case EQ : return val1==val2;
 				case NE : return val1!=val2;
@@ -345,7 +354,7 @@ uint32_t eval(int p,int q,bool *success) {
 void print_token() {
 	int tmp=0;
 		for (;tmp<nr_token;tmp++) {
-			if (tokens[tmp].type==NUM||tokens[tmp].type==HEX||tokens[tmp].type==REG)
+			if (tokens[tmp].type==NUM||tokens[tmp].type==HEX||tokens[tmp].type==REG||tokens[tmp].type==SYM)
 				printf("%s",tokens[tmp].str);
 			else 
 				switch (tokens[tmp].type) {
@@ -375,13 +384,14 @@ uint32_t expr(char *e, bool *success) {
 	}
 
 	/* TODO: Insert codes to evaluate the expression. */
-	for (i=0;i<nr_token;i++) {
+	/*for (i=0;i<nr_token;i++) {
 		if (tokens[i].type=='*') {
 			if (tokens[i-1].type != NUM && tokens[i-1].type != HEX && tokens[i-1].type!=REG)
 				tokens[i].type=LEA;
 		}
 	} //judge the index expression or symbol of multiplication
 
+	*/
 
 	uint32_t result=eval(0,nr_token-1,success);
 
