@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include "nemu.h"
 enum {
 	NOTYPE = 256, EQ, HEX, NUM, REG,LE,GE,LS,RS,NE,AND,OR,INDEX,NEG
 
@@ -70,7 +71,7 @@ void init_regex() {
 		ret = regcomp(&re[i], rules[i].regex, REG_EXTENDED);
 		if(ret != 0) {
 			regerror(ret, &re[i], error_msg, 128);
-			test(0, "regex compilation failed: %s\n%s\n", error_msg, rules[i].regex);
+			Assert(ret==0, "regex compilation failed: %s\n%s\n", error_msg, rules[i].regex);
 		}
 	}
 }
