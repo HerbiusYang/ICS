@@ -90,15 +90,13 @@ static int cmd_si(char *args) {  //This part needs to fix with strtok() and atoi
 }
 
 static int cmd_p(char *p){
-	bool success=true;
-
-	int value=expr(p,&success);
-
-	if (success==true) {
-		print_token();
-		printf("%u\n",value);
+	bool flag=true;
+	int result= expr(p,&flag);
+	if(flag==false){
+		printf("Illegal expression!\n");
+		assert(0);
 	}
-	return 0;
+	return result;
 }
 
 static struct {
