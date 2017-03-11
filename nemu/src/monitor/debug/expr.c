@@ -36,7 +36,7 @@ static struct rule {
 
 
 	{" && ", AND},					//And 
-	{"\\|\\", OR},					//OR
+	{"\\|\\|", OR},					//OR
 	{"!", NO},						//NOT
 	{"%", '%'},						//complementation
 	{"<<", LS},						//Left shift
