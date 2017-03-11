@@ -21,10 +21,10 @@ static struct rule {
 	 * Pay attention to the precedence level of different rules.
 	 */
 
-	{"0[Xx][0-9a-fA-F]{1,8}", HEX},			//16 scale number of regular expression
-	{"[0-9]{1,10}", NUM},					//10 scale number of regular expression 
+	{"0[Xx][0-9a-fA-F]+", HEX},			//16 scale number of regular expression
+	{"[0-9]+", NUM},					//10 scale number of regular expression 
 										//only make the 10scale and 16scale's calculated succeed
-	{"\\$[a-z]{1,31}", REG},           //$ of expression 
+	{"\\$[[:alpha:]]+", REG},           //$ of expression 
 
 
 	{"\\+", '+'},					//plus
