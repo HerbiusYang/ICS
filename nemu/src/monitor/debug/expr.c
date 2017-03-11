@@ -222,9 +222,9 @@ int dominant(int p,int q) {
 }
 
 
-uint32_t eval(int p,int q) {
+uint32_t eval(int p,int q,bool success) {
 
-		bool *label;
+		bool *label = success;
 
 	    if(p > q) {
 		/* Bad expression */
@@ -287,7 +287,7 @@ uint32_t eval(int p,int q) {
 		 */
 			return eval(p+1,q-1); 
 		}
-		else if (*label == true) {
+		else if (*label==true) {
 
 			int op=dominant(p,q);
 
@@ -357,7 +357,7 @@ uint32_t expr(char *e, bool *success) {
 	} //judge the index expression or symbol of multiplication
 
 
-	uint32_t result=eval(0,nr_token-1);
+	uint32_t result=eval(0,nr_token-1,success);
 
 	if (*success==false) {
 		printf("Calaulate failed!\n");
