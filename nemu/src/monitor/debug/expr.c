@@ -21,10 +21,10 @@ static struct rule {
 	 * Pay attention to the precedence level of different rules.
 	 */
 
-	{"0[Xx][0-9a-fA-F]+", HEX},			//16 scale number of regular expression
-	{"[0-9]+", NUM},					//10 scale number of regular expression 
+	{"0[Xx][0-9a-fA-F]{1,8}", HEX},			//16 scale number of regular expression
+	{"[0-9]{1,10}", NUM},					//10 scale number of regular expression 
 										//only make the 10scale and 16scale's calculated succeed
-	{"\\$[[:alpha:]]+", REG},           //$ of expression 
+	{"\\$[a-z]{1,31}", REG},           //$ of expression 
 
 
 	{"\\+", '+'},					//plus
@@ -339,11 +339,10 @@ uint32_t eval(int p,int q,bool *success) {
 }
 
 
-
 void print_token() {
 	int tmp=0;
 		for (;tmp<nr_token;tmp++) {
-			if (tokens[tmp].type==NUM||tokens[tmp].type==HEX||tokens[tmp].type==REG||tokens[tmp].type==SYM)
+			if (tokens[tmp].type==NUM||tokens[tmp].type==HEX||tokens[tmp].type==REG)
 				printf("%s",tokens[tmp].str);
 			else 
 				switch (tokens[tmp].type) {
