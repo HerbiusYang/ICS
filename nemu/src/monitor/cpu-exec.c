@@ -71,9 +71,17 @@ void cpu_exec(volatile uint32_t n) {
 			printf("%s\n", asm_buf);
 		}
 #endif
-
 		/* TODO: check watchpoints here. */
-
+		WP* status_H = head;  //head point
+		bool success= true;
+		while (status_H!=NULL) {
+			uint32_t result;
+			if (status_H->result!=(result=expr(status_H->str,&success))) {
+				printf("Watchpoint NO.%d trigger , expr is %s : %u , initial result = %u\n",status_H->NO,status_H->expr,result,status_H->result);
+				nemu_state = STOP;
+			}
+			status_H = status_H -> next;
+		}
 
 		if(nemu_state != RUNNING) { return; }
 	}

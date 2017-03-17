@@ -51,8 +51,18 @@ static void dump_register() {
 }
 
 static int cmd_info(char *args) {
+    bool success = true;
+	bool* successp = &success;
+	WP* status_H = head;
+
     switch (*args) {
     case 'r':dump_register(); return 0;
+    case 'w':
+		while(status_H!=NULL){
+			printf("watchpoint NO.%d , expr is %s : %u\n",status_H->NO,status_H->expr,expr(status_H->str,successp));
+			status_H = status_H->next;
+		return 0；
+
     default: return 1;
     }
 }
@@ -99,6 +109,55 @@ static int cmd_p(char *p) {
 	return 0;
 }
 
+
+static int cmd_m(char *args)
+{
+	char *arg = strtok(NULL,"");
+	bool success = true;
+	bool* successp = &success;
+	if (arg == NULL) {
+		printf("Expression:\n");
+	}else{
+		WP* wp = new_wp();  //initlize the number the  watchpoint
+		uint32_t result = expr(arg,successp);
+		wp->result = result;
+		strcpy(wp->expr,arg);   //put the number 
+		printf("set the watchpoint,NO.%d; %s = %u\n",wp->NO,arg,result);
+	}
+	return 0;
+}
+
+static int cmd_d(char *args){
+	char *arg = strtok(NULL,"");  //Distinguish the number 
+	int NO;
+	if (arg == NULL){
+		printf("please input the correct number");
+	}
+	else{
+		if (sscanf(arg,"%d",&NO)==-1){
+			printf("please input correct number");
+		}
+		else{
+			WP* status_H = head;
+			WP* label = NULL;
+			while (status_H!=NULL) {
+				if(status_H->NO == NO){
+					label = status_H;
+					free_wp(label);
+					printf("Delete watchpoint NO.%d success\n",NO);
+					break;
+				}
+				status_H = status_H->next;
+			}
+			if (label == NULL) {
+				printf("Do not have NO.%d in watchpoint pool\n",NO);
+			}
+		}
+	}
+	return 0;
+}
+
+
 static struct {
 	char *name;
 	char *description;
@@ -112,8 +171,8 @@ static struct {
 	{ "infor", "Print the Register Statue", cmd_info },
 	{ "p", "Caculate the expression's expert", cmd_p },
 	{ "x", "Caculate the expression's expert and take it as initial storage address as 0xffff", cmd_x },
-//	{ "w", "When Expression changed to hold the program ", cmd_w },
-//	{ "d", "Delete the number of N watch point", cmd_d },
+	{ "w", "When Expression changed to hold the program ", cmd_w },
+	{ "d", "Delete the number of N watch point", cmd_d },
 //	{ "bt", "Print the stack frame chain", cmd_bt },
 
 
