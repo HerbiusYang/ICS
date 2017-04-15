@@ -35,6 +35,7 @@ make_helper(concat(decode_si_, SUFFIX)) {
 	panic("please implement me");
 
 	op_src->val = op_src->simm;
+	op_src->simm = (DATA_TYPE_S)instr_fetch(eip,DATA_BYTE);
 
 #ifdef DEBUG
 	snprintf(op_src->str, OP_STR_SIZE, "$0x%x", op_src->val);

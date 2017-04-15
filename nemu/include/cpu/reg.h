@@ -17,6 +17,21 @@ enum { R_AL, R_CL, R_DL, R_BL, R_AH, R_CH, R_DH, R_BH };
  * For more details about the register encoding scheme, see i386 manual.
  */
 
+union
+{
+￼￼uint32_t EFLAGS;
+￼ struct {
+￼￼￼￼uint32_t CF:1;
+￼￼￼￼uint32_t PF:1;
+￼￼￼￼uint32_t ZF:1;
+￼￼￼￼uint32_t SF:1;
+￼￼￼￼uint32_t IF:1;
+￼￼￼￼uint32_t DF:1;
+￼￼￼￼uint32_t OF:1;
+￼ };
+￼};
+//ADD register about EFLAGS
+
 typedef struct {
 	union{
 		union{
